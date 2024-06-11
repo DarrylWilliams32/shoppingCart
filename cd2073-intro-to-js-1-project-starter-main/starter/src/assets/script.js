@@ -1,5 +1,27 @@
 /* Create an array named products which you will use to add all of your product object literals that you create in the next step. */
-
+const products = [
+  {
+    name: 'cherries',
+    price: '$5.99',
+    quantity: 1,
+    productId: 10001,
+    image: 'cd2073-intro-to-js-1-project-starter-main/starter/src/images/cherry.jpg'
+  },
+  {
+    name: 'oranges',
+    price: '$4.99',
+    quantity: 1,
+    productId: 10002,
+    image: 'cd2073-intro-to-js-1-project-starter-main/starter/src/images/orange.jpg'
+  },
+  {
+    name: 'strawberries',
+    price: '$3.99',
+    quantity: 1,
+    productId: 10003,
+    image: 'cd2073-intro-to-js-1-project-starter-main/starter/src/images/strawberry.jpg'
+  }
+]
 /* Create 3 or more product objects using object literal notation 
    Each product should include five properties
    - name: name of product (string)
@@ -16,12 +38,34 @@
 */
 
 /* Declare an empty array named cart to hold the items in the cart */
-
+const cart = [];
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
   - if the product is not already in the cart, add it to the cart
 */
+function addProductToCart(cart, productId) {
+  //Find the product in the products array
+  const productToAdd = products.find(product => product.productId === productId);
+
+  //Check if the product exists in the cart
+  const productExists = cart.some(cartItem => cartItem.productId === productId);
+
+  //If it doesn't exist, add it
+  if (!productExists && productToAdd) { // Make sure the product is found
+    cart.push(productToAdd); 
+  } else if (productToAdd) {
+    // 3b. If not found and product exists, add it with quantity 1
+    cart.push({ ...productToAdd, quantity: 1 }); 
+  } else {
+    // Optional: Handle the case where the product doesn't exist at all
+    console.log("Product not found.");
+  }    
+}
+
+
+addProductToCart(cart, 10003); 
+console.log(cart); 
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
   - increaseQuantity should get the correct product based on the productId
