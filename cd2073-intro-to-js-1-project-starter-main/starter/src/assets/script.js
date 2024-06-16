@@ -44,53 +44,104 @@ const cart = [];
   - addProductToCart should then increase the product's quantity
   - if the product is not already in the cart, add it to the cart
 */
-function addProductToCart(cart, productId) {
-  //Find the product in the products array
-  const productToAdd = products.find(product => product.productId === productId);
 
-  //Check if the product exists in the cart
-  const productExists = cart.some(cartItem => cartItem.productId === productId);
 
-  //If it doesn't exist, add it
-  if (!productExists && productToAdd) { // Make sure the product is found
-    cart.push(productToAdd); 
-  } else if (productToAdd) {
-    // 3b. If not found and product exists, add it with quantity 1
-    cart.push({ ...productToAdd, quantity: 1 }); 
-  } else {
-    // Optional: Handle the case where the product doesn't exist at all
-    console.log("Product not found.");
-  }    
+function findProductByID(productId) {
+  return products.find(product => product.productId === productId);
 }
 
+function isItemInCart(productId) {
+  return cart.some(cartItem => cartItem.productId === productId);
+}
 
-addProductToCart(cart, 10003); 
-console.log(cart); 
+function addProductToCart(productId) {
+  const singleItem = findProductByID(productId)
+  const inCart = isItemInCart(productId)
+  
+  if (inCart) {
+    singleItem.quantity += 1;
+  } else if (singleItem && !inCart) {
+    cart.push(singleItem);
+  } else {
+    console.log("Item not found, enter valid item.");
+  }
+}
+addProductToCart(10003);
+addProductToCart(10003); 
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
   - increaseQuantity should get the correct product based on the productId
   - increaseQuantity should then increase the product's quantity
 */
+function increaseQuantity(productId) {
+  //Find the product in the products array
+  const productsToAdd = findProductByID(productId);
+  //Check if the product exists in the cart
+  const productsExists = isItemInCart(productId);
+
+    if (productsExists && productsToAdd) {
+    productsToAdd.quantity += 1; 
+    } else {
+    console.log("Product not found.");
+  }    
+}
 
 /* Create a function named decreaseQuantity that takes in the productId as an argument
   - decreaseQuantity should get the correct product based on the productId
   - decreaseQuantity should decrease the quantity of the product
   - if the function decreases the quantity to 0, the product is removed from the cart
 */
+function decreaseQuantity(productId) {
+  const lookForProduct = findProductByID(productId);
+  const isProductInCart = isItemInCart(productId);
+  if (isProductInCart && lookForProduct) {
+    productsToAdd.quantity -= 1; 
+  } else {
+    console.log("Product not found.");
+  }   
+}
 
 /* Create a function named removeProductFromCart that takes in the productId as an argument
   - removeProductFromCart should get the correct product based on the productId
   - removeProductFromCart should update the product quantity to 0
   - removeProductFromCart should remove the product from the cart
 */
+function removeProductFromCart(productId) {
+    const remSingleItem = findProductByID(productId)
+    const remFromCart = isItemInCart(productId)
+    
+    if (remSingleItem && remFromCart && singleItem.quantity > 1) {
+      singleItem.quantity -= 1;
+    } else if (singleItem && inCart && singleItem.quantity === 1) {
+      cart.splice(singleItem);
+    } else {
+      console.log("Item not found in cart.");
+    }
+  }
+
 
 /* Create a function named cartTotal that has no parameters
   - cartTotal should iterate through the cart to get the total cost of all products
   - cartTotal should return the total cost of the products in the cart
   Hint: price and quantity can be used to determine total cost
 */
+function cartTotal () {
+  let total = 0;
+  for (let i = 0; i < cart.length; i++) {
+    total += parseFloat(cart[i].price.slice(1)) * cart[i].quantity; //converts string to integer and multiplies integers
+  }
+  return total;
+}
+
 
 /* Create a function called emptyCart that empties the products from the cart */
+function emptyCart () {
+  for (let i = cart.length; i > 0; i--) {
+    let removedItem = cart.pop();
+    console.log(removedItem);
+  }
+}
+emptyCart();
 
 /* Create a function named pay that takes in an amount as an argument
   - amount is the money paid by customer
