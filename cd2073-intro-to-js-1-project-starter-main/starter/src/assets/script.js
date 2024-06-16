@@ -130,7 +130,8 @@ function cartTotal () {
   for (let i = 0; i < cart.length; i++) {
     total += parseFloat(cart[i].price.slice(1)) * cart[i].quantity; //converts string to integer and multiplies integers
   }
-  return total;
+  let fixedTotal = total.toFixed(2)
+  return fixedTotal;
 }
 
 
@@ -141,7 +142,6 @@ function emptyCart () {
     console.log(removedItem);
   }
 }
-emptyCart();
 
 /* Create a function named pay that takes in an amount as an argument
   - amount is the money paid by customer
@@ -149,9 +149,22 @@ emptyCart();
   - pay will return a positive number if money should be returned to customer
   Hint: cartTotal function gives us cost of all the products in the cart  
 */
-
+function pay(paymentAmount) {
+ let difference = cartTotal() - paymentAmount;
+  if (difference > 0) {
+    console.log(`Incorrect payment received. You still owe $${difference } to complete the transaction`);
+    return difference;
+  } else if (difference === 0) {
+    console.log("Thank you for your payment, have a great day.");
+  } else {
+    console.log(`You have given us too much payment. Your change is: ${difference}`);
+    return difference;
+  }
+}
+pay(5.99);
+console.log(difference);
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
-
+//none of the tests would run the entire time I did the project. I don't believe I deleted any lines - so I just had to go by the rubrik
 
 /* The following is for running unit tests. 
    To fully complete this project, it is expected that all tests pass.
